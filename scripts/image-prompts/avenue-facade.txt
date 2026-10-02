@@ -1,0 +1,13 @@
+Tool: built-in image_gen, image edit, opaque background.
+Edit target: assets/static.tildacdn.pro/tild3632-3963-4139-b932-653662326564/C_0262_2.jpg
+Style reference: assets/static.tildacdn.pro/tild3730-3865-4164-b332-323637353438/freepik__img1-make-t.jpeg
+Output: assets/images/avenue-facade-realistic.png
+
+Use case: style-transfer / photorealistic architectural re-render.
+Asset type: image for the SAF Avenue real-estate website, section about facade materials.
+Input image 1 is the EDIT TARGET. Input image 2 is only a supporting style and color reference from the same website; do not reproduce its viewpoint or scene.
+Re-render image 1 to look like a convincing high-end architectural photograph of the finished residential courtyard, matching the refined warm-neutral palette, natural muted blue-gray sky, warm beige/champagne metal, restrained amber highlights, and lush natural greenery of image 2.
+Preserve the architecture of image 1 extremely closely: identical camera position and perspective, landscape 16:9 composition, the left residential building with projecting balconies and perforated metal screens in the same positions, the center glazed building with its same floor count and geometry, the right glazed facade with triangular/chamfered metal panels, the walking courtyard, planters, wood benches, and paths. Facade geometry and material positions must remain aligned with the original because the website places clickable material markers over these exact areas. Keep all major edges, balcony positions and window rhythm unchanged; do not crop or rearrange.
+Improve realism: physically plausible glass reflections and transmission, subtle brushed-metal surface texture and seams, soft natural late-afternoon illumination and believable contact shadows, realistic greenery with irregular leaf detail, believable paving with subdued reflections rather than plastic gloss. Replace the visibly pasted/CG people with naturally photographed people at similar positions and scale, with correct anatomy and shadows; preserve the foreground walking couple and sparse passersby without making people the focal point. Elegant realistic residential architecture photography, rectilinear professional lens, rich but restrained tones, realistic dynamic range.
+Remove the conspicuous overly saturated electric-blue/purple cast. Keep slight lavender in planting but make it natural. Avoid exaggerated sunset, artificial glow, hard CGI sheen, overly crisp outlines, blurred architecture, fantasy architectural modifications, extreme HDR, or invented buildings.
+Output ONLY the finished full-bleed image at high resolution, keeping the exact 16:9 aspect ratio. No interface, plus symbols, labels, captions, logo or watermark.

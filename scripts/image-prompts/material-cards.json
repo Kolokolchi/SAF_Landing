@@ -1,0 +1,47 @@
+{
+  "tool": "Built-in image_gen",
+  "images": [
+    {
+      "name": "frame",
+      "prompt": "Use case: photorealistic-natural. Asset type: compact educational image for an architectural detail card on a premium residential website. Create ONE natural photographic image, wide horizontal 3:2 composition, no collage. Warm limestone, bronze, charcoal and muted grey palette, soft realistic light, tactile real materials, architectural editorial photography with restrained contrast. The feature should be immediately recognizable in a small thumbnail. No text, letters, logos, watermarks, diagrams, people, fantasy geometry, glossy CGI look. This is an illustrative material example, not an image of a particular built project. Subject: unfinished monolithic reinforced concrete structural frame of a contemporary residential building, close architectural view of two robust columns joined to horizontal concrete floor slabs, matte concrete pores, crisp plausible construction geometry, warm daylight.",
+      "generatedSource": "C:\\Users\\Kolok\\.codex\\generated_images\\01a0f272-da88-7270-951d-be6f090ef108\\exec-1313cb02-0759-432e-8498-4a4cfc9b266d.png",
+      "destination": "assets/images/materials/frame.jpg"
+    },
+    {
+      "name": "walls",
+      "prompt": "Use case: photorealistic-natural. Asset type: compact educational image for an architectural detail card on a premium residential website. Create ONE natural photographic image, wide horizontal 3:2 composition, no collage. Warm limestone, bronze, charcoal and muted grey palette, soft realistic light, tactile real materials, architectural editorial photography with restrained contrast. The feature should be immediately recognizable in a small thumbnail. No text, letters, logos, watermarks, diagrams, people, fantasy geometry, glossy CGI look. This is an illustrative material example, not an image of a particular built project. Subject: a carefully built wall construction detail showing pale grey aerated concrete block masonry adjacent to warm red-brown brick masonry, both visibly textured, orderly realistic mortar joints, clean site, close view with a shallow angle, warm daylight.",
+      "generatedSource": "C:\\Users\\Kolok\\.codex\\generated_images\\01a0f272-da88-7270-951d-be6f090ef108\\exec-ddcc2f6f-a12f-45a7-a1cd-67016e751026.png",
+      "destination": "assets/images/materials/walls.jpg"
+    },
+    {
+      "name": "ac-screen",
+      "prompt": "Use case: photorealistic-natural. Asset type: compact educational image for an architectural detail card on a premium residential website. Create ONE natural photographic image, wide horizontal 3:2 composition, no collage. Warm limestone, bronze, charcoal and muted grey palette, soft realistic light, tactile real materials, architectural editorial photography with restrained contrast. The feature should be immediately recognizable in a small thumbnail. No text, letters, logos, watermarks, diagrams, people, fantasy geometry, glossy CGI look. This is an illustrative material example, not an image of a particular built project. Subject: a bronze perforated metal decorative basket neatly concealing an outdoor air conditioning unit on a cream limestone residential facade. Three-quarter close view, tiny visible ventilation perforations, glimpse of the condenser grille behind the screen, elegant practical construction, warm daylight.",
+      "generatedSource": "C:\\Users\\Kolok\\.codex\\generated_images\\01a0f272-da88-7270-951d-be6f090ef108\\exec-d9696fc8-047e-4664-a021-312b8733e14c.png",
+      "destination": "assets/images/materials/ac-screen.jpg"
+    },
+    {
+      "name": "glazing",
+      "prompt": "Use case: photorealistic-natural. Asset type: compact educational image for an architectural detail card on a premium residential website. Create ONE natural photographic image, wide horizontal 3:2 composition, no collage. Warm limestone, bronze, charcoal and muted grey palette, soft realistic light, tactile real materials, architectural editorial photography with restrained contrast. The feature should be immediately recognizable in a small thumbnail. No text, letters, logos, watermarks, diagrams, people, fantasy geometry, glossy CGI look. This is an illustrative material example, not an image of a particular built project. Subject: macro product photography of a real insulated glass window sample on a clean warm-grey workshop bench, cut corner of a dark bronze frame with two or three glass sheets, a visible sealed spacer and cavity between the panes. Solid physical object, no arrows or diagram, restrained reflections, the sample large in the frame.",
+      "generatedSource": "C:\\Users\\Kolok\\.codex\\generated_images\\01a0f272-da88-7270-951d-be6f090ef108\\exec-5c6341eb-18cd-42db-9f43-6ff6ff2d1184.png",
+      "destination": "assets/images/materials/glazing.jpg"
+    },
+    {
+      "name": "aluminium",
+      "prompt": "Use case: photorealistic-natural. Asset type: compact educational image for an architectural detail card on a premium residential website. Create ONE natural photographic image, wide horizontal 3:2 composition, no collage. Warm limestone, bronze, charcoal and muted grey palette, soft realistic light, tactile real materials, architectural editorial photography with restrained contrast. The feature should be immediately recognizable in a small thumbnail. No text, letters, logos, watermarks, diagrams, people, fantasy geometry, glossy CGI look. This is an illustrative material example, not an image of a particular built project. Subject: close architectural detail of matte bronze aluminium facade panels on a high-end residential building, neat vertical seams, subtle natural metal grain, one softly lit folded panel edge visible, cream limestone trim, warm oblique daylight. The metal panels occupy most of the image.",
+      "generatedSource": "C:\\Users\\Kolok\\.codex\\generated_images\\01a0f272-da88-7270-951d-be6f090ef108\\exec-2f5fafa1-5443-4b6a-9d78-709f053fe8b3.png",
+      "destination": "assets/images/materials/aluminium.jpg"
+    },
+    {
+      "name": "panoramic",
+      "prompt": "Use case: photorealistic-natural. Asset type: compact educational image for an architectural detail card on a premium residential website. Create ONE natural photographic image, wide horizontal 3:2 composition, no collage. Warm limestone, bronze, charcoal and muted grey palette, soft realistic light, tactile real materials, architectural editorial photography with restrained contrast. The feature should be immediately recognizable in a small thumbnail. No text, letters, logos, watermarks, diagrams, people, fantasy geometry, glossy CGI look. This is an illustrative material example, not an image of a particular built project. Subject: a bright refined residential interior with a floor-to-ceiling panoramic glass facade in slender bronze aluminium mullions, broad daylight view of leafy trees and a distant city, cream limestone floor, no furniture blocking the glass, natural daylight and realistic subtle reflections, straight architecture.",
+      "generatedSource": "C:\\Users\\Kolok\\.codex\\generated_images\\01a0f272-da88-7270-951d-be6f090ef108\\exec-db25bf2c-8742-4f07-bc43-beb961084660.png",
+      "destination": "assets/images/materials/panoramic.jpg"
+    },
+    {
+      "name": "lighting",
+      "prompt": "Use case: photorealistic-natural. Asset type: compact educational image for an architectural detail card on a premium residential website. Create ONE natural photographic image, wide horizontal 3:2 composition, no collage. Warm limestone, bronze, charcoal and muted grey palette, soft realistic light, tactile real materials, architectural editorial photography with restrained contrast. The feature should be immediately recognizable in a small thumbnail. No text, letters, logos, watermarks, diagrams, people, fantasy geometry, glossy CGI look. This is an illustrative material example, not an image of a particular built project. Subject: close exterior view of a premium cream limestone and bronze residential facade at blue hour, warm concealed linear architectural lighting grazing the stone pilasters and defining clean cornice lines, natural believable exposure, subtle glow, no exaggerated neon, elegant warm evening atmosphere.",
+      "generatedSource": "C:\\Users\\Kolok\\.codex\\generated_images\\01a0f272-da88-7270-951d-be6f090ef108\\exec-b2d28b9a-bf23-4226-9efd-d2cfa2dd8e59.png",
+      "destination": "assets/images/materials/lighting.jpg"
+    }
+  ]
+}

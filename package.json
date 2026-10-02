@@ -1,0 +1,23 @@
+{
+  "name": "saf-avenue-replica",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Local copy of SAF Avenue with original responsive layout and assets",
+  "scripts": {
+    "dev": "node server.mjs --dev",
+    "start": "node server.mjs",
+    "build": "node scripts/build.mjs",
+    "check": "node scripts/check.mjs",
+    "test": "node --test scripts/server.test.mjs scripts/agentation.test.mjs",
+    "test:mirror": "python scripts/test_mirror.py"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "agentation": "^3.1.2",
+    "esbuild": "^0.28.2",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
+  }
+}

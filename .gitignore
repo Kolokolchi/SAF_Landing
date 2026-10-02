@@ -1,0 +1,8 @@
+dist/
+data/
+node_modules/
+*.log
+__pycache__/
+Tex/
+*-preview.jpg
+material-cards-full.jpg
