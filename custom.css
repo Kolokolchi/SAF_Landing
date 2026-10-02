@@ -1,4 +1,12 @@
 /* LOCAL APPEARANCE OVERRIDES */
+.avenue-continuous-slider {
+  scroll-snap-type: none !important;
+  scroll-behavior: auto !important;
+  overflow-anchor: none;
+}
+.avenue-continuous-slider > .t1196__item,
+.avenue-continuous-slider > .t1148__item { height: auto !important; }
+
 .avenue-material-legacy { display: none !important; pointer-events: none !important; }
 .avenue-material-hotspot .tn-atom { overflow: visible; }
 .avenue-material-trigger {

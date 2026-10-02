@@ -10,62 +10,174 @@
   function animatedSliders() {
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     const players = [];
+    let frame;
+    function refresh() {
+      if (!frame && !document.hidden) frame = requestAnimationFrame(animate);
+    }
+    function animate(now) {
+      frame = null;
+      if (document.hidden) return;
+      const popup = !!document.querySelector('.t-popup_show, .t-zoomer__show, dialog[open]');
+      players.forEach(player => player.update(now, popup));
+      if (!reducedMotion.matches && players.some(player => player.visible && player.ready)) refresh();
+    }
     const observer = 'IntersectionObserver' in window ? new IntersectionObserver(entries => {
       for (const entry of entries) {
         const player = players.find(item => item.slider === entry.target);
-        if (player) { player.visible = entry.isIntersecting && entry.intersectionRatio >= 0.15; player.schedule(); }
+        if (player) { player.visible = entry.isIntersecting && entry.intersectionRatio >= 0.15; player.reset(); }
       }
+      refresh();
     }, { threshold: 0.15 }) : null;
 
     for (const slider of document.querySelectorAll('.t1196__slider, .t1148__slider')) {
       const record = slider.closest('.r');
-      const next = record?.querySelector('.t1196__control_right, .t1148__control_right');
-      if (!next) continue;
-      const delay = slider.classList.contains('t1196__slider') ? 6000 : 5000;
-      let timer;
-      let hovering = record.matches(':hover') && window.matchMedia('(hover: hover)').matches;
+      const originals = Array.from(slider.children);
+      if (!record || originals.length < 3) continue;
+      const speed = slider.classList.contains('t1196__slider') ? 30 : 40;
+      let position = slider.scrollLeft;
+      let applied = position;
+      let metrics = [];
+      let previousTime;
       let pressed = false;
-      // Keep Tilda's smooth transition, arrows, dragging, and slide accessibility.
-      // This timer owns autoplay so background tabs and user interaction can pause it.
+      let holdUntil = 0;
+      let manual;
+      let current;
       slider.setAttribute('data-animate-style', 'fadeinup');
+      slider.classList.add('avenue-continuous-slider');
+      originals.forEach((item, index) => { item.dataset.avenueSlideIndex = index; });
+
+      function measure() {
+        const origin = slider.firstElementChild.getBoundingClientRect().left;
+        return Array.from(slider.children, node => {
+          const rect = node.getBoundingClientRect();
+          return { node, left: rect.left - origin, width: rect.width };
+        });
+      }
+      function shiftPosition(delta) {
+        position += delta;
+        if (manual) { manual.from += delta; manual.to += delta; }
+      }
+      function normalize() {
+        // Keep one real card to the left. Recycle only outside the viewport;
+        // compensate its exact width in the same frame, so no rewind is painted.
+        for (let guard = 0; guard < originals.length; guard++) {
+          if (position < metrics[1].left - 0.01) {
+            const anchor = slider.firstElementChild;
+            const before = anchor.getBoundingClientRect().left;
+            slider.prepend(slider.lastElementChild);
+            shiftPosition(anchor.getBoundingClientRect().left - before);
+          } else if (position >= metrics[2].left) {
+            const anchor = slider.children[1];
+            const before = anchor.getBoundingClientRect().left;
+            slider.append(slider.firstElementChild);
+            shiftPosition(anchor.getBoundingClientRect().left - before);
+          } else break;
+          metrics = measure();
+        }
+      }
+      function write() {
+        normalize();
+        slider.scrollLeft = position;
+        applied = slider.scrollLeft;
+        const active = metrics.findLast(item => item.left <= position + 0.5)?.node;
+        if (active && active !== current) {
+          originals.forEach(item => item.setAttribute('aria-current', item === active ? 'true' : 'false'));
+          slider.dataset.activeSlideIndex = active.dataset.avenueSlideIndex;
+          current = active;
+        }
+      }
       const player = {
-        slider, visible: !observer,
-        schedule() {
-          clearTimeout(timer);
-          const playing = player.visible && !document.hidden && !reducedMotion.matches &&
-            !hovering && !pressed && !record.querySelector(':focus-visible') &&
-            slider.clientWidth > 0 && slider.scrollWidth > slider.clientWidth + 1;
-          slider.dataset.avenueAutoplay = playing ? 'running' : 'paused';
-          slider.setAttribute('aria-live', playing ? 'off' : 'polite');
-          if (!playing) return;
-          timer = setTimeout(() => {
-            // A zoomed photograph, form, or catalog gets the visitor's full attention.
-            if (!document.querySelector('.t-popup_show, .t-zoomer__show, dialog[open]')) next.click();
-            player.schedule();
-          }, delay);
+        slider, visible: !observer, ready: false,
+        reset() { previousTime = undefined; },
+        resize() {
+          if (!player.ready || !slider.clientWidth) return;
+          const anchor = metrics.findLast(item => item.left <= position + 0.5);
+          const next = anchor && metrics[metrics.indexOf(anchor) + 1];
+          const progress = anchor && next ? (position - anchor.left) / (next.left - anchor.left) : 0;
+          metrics = measure();
+          const replacement = metrics.find(item => item.node === anchor?.node);
+          const after = replacement && metrics[metrics.indexOf(replacement) + 1];
+          if (replacement && after) position = replacement.left + progress * (after.left - replacement.left);
+          manual = undefined;
+          write();
+          player.reset();
+          refresh();
+        },
+        update(now, popup) {
+          const elapsed = previousTime === undefined ? 0 : Math.min(now - previousTime, 50);
+          previousTime = now;
+          const playing = player.ready && player.visible && !document.hidden && !reducedMotion.matches &&
+            !pressed && now >= holdUntil && !popup && !record.querySelector(':focus-visible') && slider.clientWidth > 0;
+          const state = playing ? 'running' : 'paused';
+          if (slider.dataset.avenueAutoplay !== state) {
+            slider.dataset.avenueAutoplay = state;
+            slider.setAttribute('aria-live', playing ? 'off' : 'polite');
+          }
+          if (!player.ready || pressed || !slider.clientWidth) return;
+          if (manual) {
+            const progress = Math.min((now - manual.start) / 600, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            position = manual.from + (manual.to - manual.from) * eased;
+            if (progress === 1) manual = undefined;
+            write();
+          } else if (playing) {
+            position += speed * elapsed / 1000;
+            write();
+          }
         },
       };
       players.push(player);
-      record.addEventListener('pointerenter', event => {
-        if (event.pointerType !== 'touch') { hovering = true; player.schedule(); }
-      });
-      record.addEventListener('pointerleave', () => { hovering = false; player.schedule(); });
-      record.addEventListener('focusin', () => player.schedule());
-      record.addEventListener('focusout', () => setTimeout(() => player.schedule(), 0));
-      record.addEventListener('pointerdown', () => { pressed = true; player.schedule(); });
+      for (const [selector, direction] of [['.t1196__control_left, .t1148__control_left', -1], ['.t1196__control_right, .t1148__control_right', 1]]) {
+        record.querySelector(selector)?.addEventListener('click', event => {
+          event.preventDefault();
+          event.stopImmediatePropagation();
+          if (!player.ready || !slider.clientWidth) return;
+          manual = undefined;
+          position = slider.scrollLeft;
+          write();
+          const target = direction > 0 ? metrics.find(item => item.left > position + 2) :
+            metrics.findLast(item => item.left < position - 2);
+          if (!target) return;
+          if (reducedMotion.matches) { position = target.left; write(); }
+          else manual = { from: position, to: target.left, start: performance.now() };
+          refresh();
+        }, true);
+      }
+      record.addEventListener('focusin', refresh);
+      record.addEventListener('focusout', refresh);
+      record.addEventListener('pointerdown', () => { pressed = true; manual = undefined; });
       const release = () => {
-        if (pressed) { pressed = false; player.schedule(); }
+        if (!pressed) return;
+        pressed = false;
+        position = slider.scrollLeft;
+        if (player.ready && slider.clientWidth) write();
+        player.reset();
+        refresh();
       };
       document.addEventListener('pointerup', release);
       document.addEventListener('pointercancel', release);
-      record.addEventListener('wheel', () => player.schedule(), { passive: true });
-      record.addEventListener('click', event => { if (event.isTrusted) player.schedule(); });
+      slider.addEventListener('wheel', () => { holdUntil = performance.now() + 500; manual = undefined; }, { passive: true });
+      slider.addEventListener('scroll', () => {
+        if (Math.abs(slider.scrollLeft - applied) > 1) { position = slider.scrollLeft; manual = undefined; }
+      }, { passive: true });
       observer?.observe(slider);
-      player.schedule();
+      const resize = new ResizeObserver(() => player.resize());
+      resize.observe(slider);
+      originals.forEach(item => resize.observe(item));
+      const images = Array.from(slider.querySelectorAll('img[data-original]'), image => {
+        image.src = image.dataset.original;
+        return image.decode().catch(() => {});
+      });
+      Promise.all([document.fonts?.ready, ...images]).then(() => {
+        player.ready = true;
+        metrics = measure();
+        if (slider.clientWidth) write();
+        refresh();
+      });
     }
-    const refresh = () => players.forEach(player => player.schedule());
-    document.addEventListener('visibilitychange', refresh);
-    reducedMotion.addEventListener('change', refresh);
+    const restart = () => { players.forEach(player => player.reset()); refresh(); };
+    document.addEventListener('visibilitychange', restart);
+    reducedMotion.addEventListener('change', restart);
   }
 
   function materialCards() {
