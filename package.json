@@ -8,6 +8,7 @@
     "start": "node server.mjs",
     "build": "node scripts/build.mjs",
     "check": "node scripts/check.mjs",
+    "check:static": "node scripts/check-static.mjs",
     "test": "node --test scripts/server.test.mjs scripts/agentation.test.mjs",
     "test:mirror": "python scripts/test_mirror.py"
   },

@@ -32,10 +32,10 @@ async function prepare(folder) {
     let content = await readFile(file, 'utf8');
     if (base !== '/') {
       // Rebase local URLs without touching external URLs, anchors, or regular expressions.
-      content = content.replace(/(^|[="'`(\s])\/(?=assets\/|custom\.css\b|local-runtime\.js\b)/g,
+      content = content.replace(/(^|[="'`(\s]|&quot;|&apos;|&#(?:34|39);|&#x(?:22|27);)\/(?=assets\/|custom\.css\b|local-runtime\.js\b)/gi,
         (_, prefix) => prefix + base);
       if (entry.name.endsWith('.html')) {
-        content = content.replace(/(^|[="'`(\s])\/(?=avenuekz\b|avenue\b|privacykz\b|privacy\b)/g,
+        content = content.replace(/(^|[="'`(\s]|&quot;|&apos;|&#(?:34|39);|&#x(?:22|27);)\/(?=avenuekz\b|avenue\b|privacykz\b|privacy\b)/gi,
           (_, prefix) => prefix + base);
       }
     }
