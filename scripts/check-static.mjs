@@ -16,6 +16,18 @@ for (const filename of ['index.html', 'avenue.html', 'avenuekz.html', 'privacy.h
   const base = html.match(/data-site-base="([^"]+)"/)?.[1];
   assert.ok(base, `Missing site base in ${filename}`);
   const decoded = decodeAttribute(html);
+  if (filename === 'index.html' || filename.startsWith('avenue')) {
+    const photoGallery = html.match(/<div id="rec\d+"[^>]+data-record-type="1148">([\s\S]*?)(?=<div id="rec|$)/)?.[1];
+    assert.ok(photoGallery, `Missing photo gallery in ${filename}`);
+    for (const photo of ['avenue-facade-realistic.png', 'avenue-panorama.png']) {
+      const expected = base + 'assets/images/' + photo;
+      for (const attribute of ['src', 'data-original', 'data-img-zoom-url']) {
+        assert.ok(photoGallery.includes(`${attribute}="${expected}"`), `Outdated ${attribute} for ${photo} in ${filename}`);
+      }
+    }
+    assert.ok(!/tild6663-3739-4634-a438-393939303530|tild6533-3930-4333-a262-616561316164/.test(photoGallery),
+      `Outdated photo in ${filename}`);
+  }
   if (base !== '/') {
     assert.ok(!/(?:^|[="'`(\s])\/(?:assets\/|custom\.css\b|local-runtime\.js\b|avenuekz\b|avenue\b|privacykz\b|privacy\b)/.test(decoded),
       `URL points outside the project base in ${filename}`);

@@ -7,6 +7,67 @@
   const pagePath = location.pathname.slice(siteBase.length - 1).replace(/\/$/, '');
   const kazakhPage = pagePath === '/avenuekz' || pagePath === '/avenuekz.html';
 
+  function animatedSliders() {
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const players = [];
+    const observer = 'IntersectionObserver' in window ? new IntersectionObserver(entries => {
+      for (const entry of entries) {
+        const player = players.find(item => item.slider === entry.target);
+        if (player) { player.visible = entry.isIntersecting && entry.intersectionRatio >= 0.15; player.schedule(); }
+      }
+    }, { threshold: 0.15 }) : null;
+
+    for (const slider of document.querySelectorAll('.t1196__slider, .t1148__slider')) {
+      const record = slider.closest('.r');
+      const next = record?.querySelector('.t1196__control_right, .t1148__control_right');
+      if (!next) continue;
+      const delay = slider.classList.contains('t1196__slider') ? 6000 : 5000;
+      let timer;
+      let hovering = record.matches(':hover') && window.matchMedia('(hover: hover)').matches;
+      let pressed = false;
+      // Keep Tilda's smooth transition, arrows, dragging, and slide accessibility.
+      // This timer owns autoplay so background tabs and user interaction can pause it.
+      slider.setAttribute('data-animate-style', 'fadeinup');
+      const player = {
+        slider, visible: !observer,
+        schedule() {
+          clearTimeout(timer);
+          const playing = player.visible && !document.hidden && !reducedMotion.matches &&
+            !hovering && !pressed && !record.querySelector(':focus-visible') &&
+            slider.clientWidth > 0 && slider.scrollWidth > slider.clientWidth + 1;
+          slider.dataset.avenueAutoplay = playing ? 'running' : 'paused';
+          slider.setAttribute('aria-live', playing ? 'off' : 'polite');
+          if (!playing) return;
+          timer = setTimeout(() => {
+            // A zoomed photograph, form, or catalog gets the visitor's full attention.
+            if (!document.querySelector('.t-popup_show, .t-zoomer__show, dialog[open]')) next.click();
+            player.schedule();
+          }, delay);
+        },
+      };
+      players.push(player);
+      record.addEventListener('pointerenter', event => {
+        if (event.pointerType !== 'touch') { hovering = true; player.schedule(); }
+      });
+      record.addEventListener('pointerleave', () => { hovering = false; player.schedule(); });
+      record.addEventListener('focusin', () => player.schedule());
+      record.addEventListener('focusout', () => setTimeout(() => player.schedule(), 0));
+      record.addEventListener('pointerdown', () => { pressed = true; player.schedule(); });
+      const release = () => {
+        if (pressed) { pressed = false; player.schedule(); }
+      };
+      document.addEventListener('pointerup', release);
+      document.addEventListener('pointercancel', release);
+      record.addEventListener('wheel', () => player.schedule(), { passive: true });
+      record.addEventListener('click', event => { if (event.isTrusted) player.schedule(); });
+      observer?.observe(slider);
+      player.schedule();
+    }
+    const refresh = () => players.forEach(player => player.schedule());
+    document.addEventListener('visibilitychange', refresh);
+    reducedMotion.addEventListener('change', refresh);
+  }
+
   function materialCards() {
     const section = document.querySelector('#rec2124998913, #rec2147492803');
     if (!section) return;
@@ -457,6 +518,7 @@
     update();
   }
   document.addEventListener('DOMContentLoaded', () => {
+    animatedSliders();
     revealAnimations();
     materialCards();
     catalog();
